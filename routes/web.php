@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ContactsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,10 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 /*
 |--------------------------------------------------------------------------
 | Login
@@ -27,3 +24,17 @@ Route::post('/login',[AuthController::class, 'auth'])->name('login.auth');
 Route::middleware('auth')->get('/logout',[AuthController::class, 'logout'])->name('login.logout');
 
 
+/*
+|--------------------------------------------------------------------------
+| Contacts
+|-------------------------------------------------------------------------- */
+Route::get('/', [ContactsController::class,'index'])->name('contacts.index');
+
+// Route::middleware('auth')->prefix('contact')->group(function(){
+//     Route::get('/details/{id}', [ContactsController::class,'details'])->name('contact.details');
+// });
+
+Route::prefix('contact')->group(function(){
+    Route::get('/details/{id}', [ContactsController::class,'details'])->name('contact.details');
+    Route::get('/remove/{id}', [ContactsController::class,'remove'])->name('contact.remove');
+});
