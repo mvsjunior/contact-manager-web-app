@@ -30,18 +30,29 @@ class ContactsController extends Controller
     public function details(Request $request){
 
         if(!Auth::check()){
-            Session::flash('error-message', 'You need to be logged in to access this resource.');
-            return redirect()->to('/');
+            Session::flash('error-message', "You need to be <a class='alert-link' href=".route('login')." >logged in</a> to access this resource.");
+            return redirect()->to(route('contacts.index'));
         }
 
-        Session::flash('success-message', 'This feature is still under development :)');
-        return redirect()->to('/');
+        $contact = Contact::find($request->id);
+
+        if(empty($contact)){
+            Session::flash('error-message', "Record not found.");
+            return redirect()->to(route('contacts.index'));
+        }
+
+        $viewData = [
+            "contact" => $contact,
+            "pageTitle" => 'Details'
+        ];
+
+        return view('contacts.details', $viewData);
     }
 
     public function remove(Request $request){
 
         if(!Auth::check()){
-            Session::flash('error-message', 'You need to be logged in to access this resource.');
+            Session::flash('error-message', "You need to be <a class='alert-link' href=".route('login')." >logged in</a> to access this resource.");
             return redirect()->to('/');
         }
 
