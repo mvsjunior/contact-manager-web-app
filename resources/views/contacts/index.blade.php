@@ -5,6 +5,13 @@
     <div class="col-sm-12 col-md-8">
         @include('components.flash-alerts')
 
+        <div class="row">
+            <div class="col-12 my-4">
+                <a href="{{route('contact.create')}}" class='btn btn-sm btn-primary'>Add a new contact</a>
+
+            </div>
+        </div>
+
         <table class='table table-sm table-hover'>
             <thead class='table-light'>
                 <tr>

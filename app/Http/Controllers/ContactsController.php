@@ -124,6 +124,61 @@ class ContactsController extends Controller
         return view('contacts.edit', $viewData);
     }
 
+    public function formCreate(Request $request){
+
+        if(!Auth::check()){
+            Session::flash('error-message', "You need to be <a class='alert-link' href=".route('login')." >logged in</a> to access this resource.");
+            return redirect()->to(route('contacts.index'));
+        }
+
+        $viewData = [
+            "pageTitle" => 'Create'
+        ];
+
+        return view('contacts.create', $viewData);
+    }
+
+    public function create(Request $request){
+        
+        if(!Auth::check()){
+            Session::flash('error-message', "You need to be <a class='alert-link' href=".route('login')." >logged in</a> to access this resource.");
+            return redirect()->to(route('contacts.index'));
+        }
+
+        $validatorIdAndName = Validator::make($request->only(['name']),[
+            'name' => 'min:6'
+        ]);
+
+        if($validatorIdAndName->fails()){
+            return back()->withErrors($validatorIdAndName)->withInput();
+        }
+
+        if(!empty($request->post('email') && $request->post('email') != '')){
+            $validatorEmail = Validator::make($request->only(['email']),['email' => 'email|unique:contacts,email,'.$request->post('id')]);
+            if($validatorEmail->fails()){
+                return back()->withErrors($validatorEmail)->withInput();
+            }
+        }
+
+        if(!empty($request->post('contact') && $request->post('contact') != '')){
+            $validatorContact = Validator::make($request->only(['contact']),['contact' => 'integer|unique:contacts,contact,'.$request->post('id').'|digits:9']);
+
+            if($validatorContact->fails()){
+                return back()->withErrors($validatorContact)->withInput();
+            }
+        }
+
+        $contact = new Contact;
+
+        if($contact->create($request->only(['id','name','contact','email']))){
+            Session::flash('success-message', "Data updated successfully.");
+            return redirect()->to(route('contacts.index'));
+        }
+
+        Session::flash('error-message', "An error has occurred. Please try again.");
+        return redirect()->to(route('contact.details',['id' => $request->post('id')]));
+    }
+
 
     public function remove(Request $request){
 
@@ -144,14 +199,6 @@ class ContactsController extends Controller
 
         Session::flash('success-message', 'Record removed successfully.');
         return redirect()->to(route('contacts.index'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**

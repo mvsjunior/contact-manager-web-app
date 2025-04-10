@@ -36,6 +36,8 @@ Route::get('/', [ContactsController::class,'index'])->name('contacts.index');
 
 Route::prefix('contact')->group(function(){
     Route::get('/details/{id}', [ContactsController::class,'details'])->name('contact.details');
+    Route::get('/create', [ContactsController::class,'formCreate'])->name('contact.create');
+    Route::post('/create', [ContactsController::class,'create'])->name('contact.create');
     Route::get('/edit/{id}', [ContactsController::class,'formEdit'])->name('contact.edit');
     Route::post('/update', [ContactsController::class,'update'])->name('contact.update');
     Route::get('/remove/{id}', [ContactsController::class,'remove'])->name('contact.remove');
