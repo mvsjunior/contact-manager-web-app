@@ -9,8 +9,6 @@
                 <div class="card">
                     <div class="card-body">
                         <form>
-                            @csrf
-
                             <div class="mb-3 row">
                                 <label for="name" class="col-sm-3 col-form-label">Name:</label>
                                 <div class="col-sm-9">
@@ -41,7 +39,7 @@
                     </div>
 
                     <div class="card-footer d-flex justify-content-end gap-2">
-                        <a class="btn btn-sm btn-outline-primary" href="#">
+                        <a class="btn btn-sm btn-outline-primary" href="{{route('contact.edit',['id'=>$contact->id])}}">
                             Edit
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         </a>
