@@ -43,7 +43,7 @@
                             Edit
                             <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                         </a>
-                        <a class="btn btn-sm btn-outline-danger" href="#">
+                        <a class="btn btn-sm btn-outline-danger"  href="{{route('contact.remove',['id' => $contact->id])}}">
                             Delete
                             <i class="fa fa-times" aria-hidden="true"></i>
                         </a>

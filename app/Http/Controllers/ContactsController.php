@@ -132,8 +132,18 @@ class ContactsController extends Controller
             return redirect()->to('/');
         }
 
-        Session::flash('success-message', 'This feature is still under development :)');
-        return redirect()->to('/');
+        $contact = Contact::find($request->id);
+
+    
+        if(empty($contact)){
+            Session::flash('error-message', "Record not found.");
+            return redirect()->to(route('contacts.index'));
+        }
+
+        $contact->delete();
+
+        Session::flash('success-message', 'Record removed successfully.');
+        return redirect()->to(route('contacts.index'));
     }
 
     /**
