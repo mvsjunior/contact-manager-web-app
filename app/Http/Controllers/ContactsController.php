@@ -16,7 +16,7 @@ class ContactsController extends Controller
     public function index()
     {
         //
-        $paginator = Contact::select('id','name')->paginate(2);
+        $paginator = Contact::select('id','name')->paginate(10);
 
         $contacts = $paginator->items();
 
